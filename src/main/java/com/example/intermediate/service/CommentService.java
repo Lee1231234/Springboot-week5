@@ -2,16 +2,20 @@ package com.example.intermediate.service;
 
 import com.example.intermediate.controller.response.ResponseDto;
 import com.example.intermediate.controller.response.CommentResponseDto;
+import com.example.intermediate.controller.response.SubCommentResponeDto;
 import com.example.intermediate.domain.Comment;
 import com.example.intermediate.domain.Member;
 import com.example.intermediate.domain.Post;
 import com.example.intermediate.controller.request.CommentRequestDto;
+import com.example.intermediate.domain.SubComment;
 import com.example.intermediate.jwt.TokenProvider;
 import com.example.intermediate.repository.CommentRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
+
+import com.example.intermediate.repository.SubCommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentService {
 
   private final CommentRepository commentRepository;
+  private final SubCommentRepository subCommentRepository;
 
   private final TokenProvider tokenProvider;
   private final PostService postService;
@@ -67,22 +72,38 @@ public class CommentService {
   @Transactional(readOnly = true)
   public ResponseDto<?> getAllCommentsByPost(Long postId) {
     Post post = postService.isPresentPost(postId);
-    if (null == post) {
+    if (null == post){
       return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
     }
 
     List<Comment> commentList = commentRepository.findAllByPost(post);
     List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
 
+
+
     for (Comment comment : commentList) {
+      List<SubComment> subComments = subCommentRepository.findAllByComment(comment);
+      List<SubCommentResponeDto> subCommentResponeDtos = new ArrayList<>();
+      for(SubComment subcomment:subComments){
+        subCommentResponeDtos.add(
+                SubCommentResponeDto.builder()
+                        .id(subcomment.getId())
+                        .author(subcomment.getMember().getNickname())
+                        .content(subcomment.getContent())
+                        .createdAt(subcomment.getCreatedAt())
+                        .modifiedAt(subcomment.getModifiedAt())
+                        .build()
+        );
+      }
       commentResponseDtoList.add(
-          CommentResponseDto.builder()
-              .id(comment.getId())
-              .author(comment.getMember().getNickname())
-              .content(comment.getContent())
-              .createdAt(comment.getCreatedAt())
-              .modifiedAt(comment.getModifiedAt())
-              .build()
+              CommentResponseDto.builder()
+                      .id(comment.getId())
+                      .author(comment.getMember().getNickname())
+                      .content(comment.getContent())
+                      .Comments(subCommentResponeDtos)
+                      .createdAt(comment.getCreatedAt())
+                      .modifiedAt(comment.getModifiedAt())
+                      .build()
       );
     }
     return ResponseDto.success(commentResponseDtoList);
@@ -119,12 +140,26 @@ public class CommentService {
       return ResponseDto.fail("BAD_REQUEST", "작성자만 수정할 수 있습니다.");
     }
 
+    List<SubComment> subComments = subCommentRepository.findAllByComment(comment);
+    List<SubCommentResponeDto> subCommentResponeDtos = new ArrayList<>();
+    for(SubComment subcomment:subComments){
+      subCommentResponeDtos.add(
+              SubCommentResponeDto.builder()
+                      .id(subcomment.getId())
+                      .author(subcomment.getMember().getNickname())
+                      .content(subcomment.getContent())
+                      .createdAt(subcomment.getCreatedAt())
+                      .modifiedAt(subcomment.getModifiedAt())
+                      .build()
+      );
+    }
     comment.update(requestDto);
     return ResponseDto.success(
         CommentResponseDto.builder()
             .id(comment.getId())
             .author(comment.getMember().getNickname())
             .content(comment.getContent())
+            .Comments(subCommentResponeDtos)
             .createdAt(comment.getCreatedAt())
             .modifiedAt(comment.getModifiedAt())
             .build()
@@ -158,6 +193,7 @@ public class CommentService {
     }
 
     commentRepository.delete(comment);
+    subCommentRepository.deleteAllByComment(comment);
     return ResponseDto.success("success");
   }
 
