@@ -28,6 +28,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PostService {
 
+
   private final PostRepository postRepository;
   private final CommentRepository commentRepository;
   private final SubCommentRepository subCommentRepository;
@@ -47,6 +48,8 @@ public class PostService {
           "로그인이 필요합니다.");
     }
 
+
+
     Member member = validateMember(request);
     if (null == member) {
       return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
@@ -55,6 +58,7 @@ public class PostService {
     Post post = Post.builder()
         .title(requestDto.getTitle())
         .content(requestDto.getContent())
+        .url(request.getHeader("Url"))
         .member(member)
         .build();
     postRepository.save(post);
@@ -63,12 +67,14 @@ public class PostService {
             .id(post.getId())
             .title(post.getTitle())
             .content(post.getContent())
+            .url(post.getUrl())
             .author(post.getMember().getNickname())
             .createdAt(post.getCreatedAt())
             .modifiedAt(post.getModifiedAt())
             .build()
     );
   }
+
 
   @Transactional(readOnly = true)
   public ResponseDto<?> getPost(Long id) {
@@ -111,6 +117,7 @@ public class PostService {
             .id(post.getId())
             .title(post.getTitle())
             .content(post.getContent())
+            .url(post.getUrl())
             .commentResponseDtoList(commentResponseDtoList)
             .author(post.getMember().getNickname())
             .createdAt(post.getCreatedAt())
@@ -150,7 +157,7 @@ public class PostService {
       return ResponseDto.fail("BAD_REQUEST", "작성자만 수정할 수 있습니다.");
     }
 
-    post.update(requestDto);
+    post.update(requestDto,request);
     return ResponseDto.success(post);
   }
 
@@ -229,11 +236,14 @@ public class PostService {
     PostLikes likes = isPresentLikes(post.getId(), member.getNickname());
 
     if (null == likes)
-      likesRepository.save(PostLikes.builder().requestId(post.getId()).nickname(member.getNickname()).build());
+      likesRepository.save(PostLikes.builder()
+              .requestId(post.getId())
+              .nickname(member.getNickname()).build());
     else
       likesRepository.delete(likes);
 
-    post.updatelikes(likesRepository.findAllByRequestId(post.getId()).size());
+    post.updatelikes(likesRepository
+            .findAllByRequestId(post.getId()).size());
 
     return ResponseDto.success("like success");
 

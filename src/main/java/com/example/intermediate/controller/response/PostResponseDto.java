@@ -16,6 +16,7 @@ public class PostResponseDto {
   private Long id;
   private String title;
   private String content;
+  private String url;
   private String author;
   private List<CommentResponseDto> commentResponseDtoList;
   private LocalDateTime createdAt;
