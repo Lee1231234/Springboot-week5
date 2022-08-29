@@ -11,6 +11,5 @@ public interface CommentLikeRepository extends JpaRepository<CommentLikes, Long>
         List<CommentLikes> findAllByRequestId(Long RequestID);
 
 
-
-
+        List<CommentLikes> findAllByNickname(String nickname);
 }

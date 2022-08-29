@@ -12,4 +12,5 @@ public  interface LikesRepository extends JpaRepository<PostLikes, Long> {
     List<PostLikes> findAllByRequestId(Long RequestID);
 
 
+    List<PostLikes> findAllByNickname(String nickname);
 }

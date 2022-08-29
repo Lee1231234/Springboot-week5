@@ -51,4 +51,6 @@ public class Post extends Timestamped {
   public void updatelikes(int num) {
     this.likes = (num);
   }
+
+
 }
