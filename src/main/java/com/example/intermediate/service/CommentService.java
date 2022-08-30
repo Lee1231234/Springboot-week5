@@ -65,6 +65,7 @@ public class CommentService {
                         .id(comment.getId())
                         .author(comment.getMember().getNickname())
                         .content(comment.getContent())
+                        .like(comment.getLikes())
                         .createdAt(comment.getCreatedAt())
                         .modifiedAt(comment.getModifiedAt())
                         .build()
@@ -91,6 +92,7 @@ public class CommentService {
                                 .id(subcomment.getId())
                                 .author(subcomment.getMember().getNickname())
                                 .content(subcomment.getContent())
+                                .like(subcomment.getLikes())
                                 .createdAt(subcomment.getCreatedAt())
                                 .modifiedAt(subcomment.getModifiedAt())
                                 .build()
@@ -101,6 +103,7 @@ public class CommentService {
                             .id(comment.getId())
                             .author(comment.getMember().getNickname())
                             .content(comment.getContent())
+                            .like(comment.getLikes())
                             .Comments(subCommentResponeDtos)
                             .createdAt(comment.getCreatedAt())
                             .modifiedAt(comment.getModifiedAt())
@@ -149,6 +152,8 @@ public class CommentService {
                             .id(subcomment.getId())
                             .author(subcomment.getMember().getNickname())
                             .content(subcomment.getContent())
+                            .like(subcomment.getLikes())
+
                             .createdAt(subcomment.getCreatedAt())
                             .modifiedAt(subcomment.getModifiedAt())
                             .build()
@@ -160,6 +165,8 @@ public class CommentService {
                         .id(comment.getId())
                         .author(comment.getMember().getNickname())
                         .content(comment.getContent())
+                        .like(comment.getLikes())
+
                         .Comments(subCommentResponeDtos)
                         .createdAt(comment.getCreatedAt())
                         .modifiedAt(comment.getModifiedAt())
@@ -242,7 +249,10 @@ public class CommentService {
         CommentLikes likes = isPresentcommentLikes(comment.getId(), member.getNickname());
 
         if (null == likes)
-            commentLikeRepository.save(CommentLikes.builder().requestId(comment.getId()).nickname(member.getNickname()).build());
+            commentLikeRepository.save(CommentLikes.builder()
+                            .requestId(comment.getId())
+                            .nickname(member.getNickname())
+                            .build());
         else
             commentLikeRepository.delete(likes);
 
