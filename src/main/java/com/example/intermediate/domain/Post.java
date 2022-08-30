@@ -26,7 +26,7 @@ public class Post extends Timestamped {
   @Column(nullable = false)
   private String content;
 
-  @Column
+  @Column(length = 1000)
   private String imgUrl;
 
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
