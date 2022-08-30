@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Builder
@@ -39,11 +40,16 @@ public class Post extends Timestamped {
   @Column
   private int likes;
 
+  @Column
+  private String url;
 
 
-  public void update(PostRequestDto postRequestDto) {
+
+
+  public void update(PostRequestDto postRequestDto, HttpServletRequest request) {
     this.title = postRequestDto.getTitle();
     this.content = postRequestDto.getContent();
+    this.url =  request.getHeader("url");
   }
 
   public boolean validateMember(Member member) {
