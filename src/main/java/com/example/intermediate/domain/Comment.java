@@ -4,12 +4,14 @@ import com.example.intermediate.controller.request.CommentRequestDto;
 import com.example.intermediate.controller.response.CommentResponseDto;
 import com.example.intermediate.controller.response.SubCommentResponeDto;
 import com.example.intermediate.repository.SubCommentRepository;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +53,5 @@ public class Comment extends Timestamped {
   public void updatelikes(int num) {
     this.likes = (num);
   }
-
 
 }

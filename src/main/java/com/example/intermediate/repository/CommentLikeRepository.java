@@ -9,7 +9,6 @@ import java.util.Optional;
 public interface CommentLikeRepository extends JpaRepository<CommentLikes, Long>{
         Optional<CommentLikes> findByRequestIdAndNickname(Long Id , String nickname);
         List<CommentLikes> findAllByRequestId(Long RequestID);
-
-
         List<CommentLikes> findAllByNickname(String nickname);
+
 }

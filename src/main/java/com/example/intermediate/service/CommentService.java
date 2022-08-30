@@ -153,6 +153,7 @@ public class CommentService {
                             .author(subcomment.getMember().getNickname())
                             .content(subcomment.getContent())
                             .like(subcomment.getLikes())
+
                             .createdAt(subcomment.getCreatedAt())
                             .modifiedAt(subcomment.getModifiedAt())
                             .build()
@@ -165,6 +166,7 @@ public class CommentService {
                         .author(comment.getMember().getNickname())
                         .content(comment.getContent())
                         .like(comment.getLikes())
+
                         .Comments(subCommentResponeDtos)
                         .createdAt(comment.getCreatedAt())
                         .modifiedAt(comment.getModifiedAt())

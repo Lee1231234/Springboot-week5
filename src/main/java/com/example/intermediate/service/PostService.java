@@ -55,6 +55,7 @@ public class PostService {
     Post post = Post.builder()
         .title(requestDto.getTitle())
         .content(requestDto.getContent())
+        .imgUrl(requestDto.getImgUrl())
         .member(member)
         .build();
     postRepository.save(post);
@@ -63,6 +64,7 @@ public class PostService {
             .id(post.getId())
             .title(post.getTitle())
             .content(post.getContent())
+            .imgUrl(post.getImgUrl())
             .like(post.getLikes())
             .author(post.getMember().getNickname())
             .createdAt(post.getCreatedAt())
@@ -228,7 +230,6 @@ public class PostService {
     if (null == post) {
       return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
     }
-
     PostLikes likes = isPresentLikes(post.getId(), member.getNickname());
 
     if (null == likes)
