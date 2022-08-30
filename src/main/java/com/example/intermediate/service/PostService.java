@@ -58,7 +58,11 @@ public class PostService {
     Post post = Post.builder()
         .title(requestDto.getTitle())
         .content(requestDto.getContent())
+        
         .url(request.getHeader("Url"))
+
+        .imgUrl(requestDto.getImgUrl())
+
         .member(member)
         .build();
     postRepository.save(post);
@@ -67,7 +71,12 @@ public class PostService {
             .id(post.getId())
             .title(post.getTitle())
             .content(post.getContent())
+
             .url(post.getUrl())
+
+            .imgUrl(post.getImgUrl())
+            .like(post.getLikes())
+
             .author(post.getMember().getNickname())
             .createdAt(post.getCreatedAt())
             .modifiedAt(post.getModifiedAt())
@@ -95,6 +104,7 @@ public class PostService {
                           .id(subcomment.getId())
                           .author(subcomment.getMember().getNickname())
                           .content(subcomment.getContent())
+                          .like(subcomment.getLikes())
                           .createdAt(subcomment.getCreatedAt())
                           .modifiedAt(subcomment.getModifiedAt())
                           .build()
@@ -105,6 +115,7 @@ public class PostService {
               .id(comment.getId())
               .author(comment.getMember().getNickname())
               .content(comment.getContent())
+              .like(comment.getLikes())
               .Comments(subCommentResponeDtos)
               .createdAt(comment.getCreatedAt())
               .modifiedAt(comment.getModifiedAt())
@@ -232,7 +243,6 @@ public class PostService {
     if (null == post) {
       return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
     }
-
     PostLikes likes = isPresentLikes(post.getId(), member.getNickname());
 
     if (null == likes)
