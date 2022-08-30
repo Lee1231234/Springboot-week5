@@ -1,7 +1,9 @@
 # Mentoring-Assignment-Intermediate
-#
-# application.properties에 아래 내용 추가해야 s3 이미지 업로드 정상 작동합니다.(비밀키라 깃허브 공유x)
-# S3
+
+
+
+application.properties에 아래 내용 추가해야 s3 이미지 업로드 정상 작동합니다.(비밀키라 깃허브 공유x)
+#S3
 cloud.aws.credentials.accessKey={accessKey}
 cloud.aws.credentials.secretKey={secretKey}
 cloud.aws.s3.bucket={bucketName}
