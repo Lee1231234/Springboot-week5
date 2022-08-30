@@ -1,20 +1,15 @@
 package com.example.intermediate.controller.request;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRequestDto {
+public class LikeRequestDto {
 
-  @NotBlank
-  private String nickname;
-
-  @NotBlank
-  private String password;
+    private int like;
 
 }

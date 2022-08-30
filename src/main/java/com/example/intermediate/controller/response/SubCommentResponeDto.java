@@ -11,9 +11,12 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberResponseDto {
-  private Long id;
-  private String nickname;
-  private LocalDateTime createdAt;
-  private LocalDateTime modifiedAt;
+public class SubCommentResponeDto {
+    private Long id;
+    private String author;
+    private String content;
+    private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
+
+
 }
