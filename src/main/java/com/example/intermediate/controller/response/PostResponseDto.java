@@ -20,6 +20,8 @@ public class PostResponseDto {
   private String author;
   private int like;
   private List<CommentResponseDto> commentResponseDtoList;
+  private int commentcount;
   private LocalDateTime createdAt;
   private LocalDateTime modifiedAt;
+
 }

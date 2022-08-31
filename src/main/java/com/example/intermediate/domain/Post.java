@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Builder

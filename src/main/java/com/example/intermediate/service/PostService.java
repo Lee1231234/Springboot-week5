@@ -121,6 +121,9 @@ public class PostService {
             .title(post.getTitle())
             .content(post.getContent())
             .imgUrl(post.getImgUrl())
+
+            .commentcount(commentResponseDtoList.size())
+
             .commentResponseDtoList(commentResponseDtoList)
             .author(post.getMember().getNickname())
             .createdAt(post.getCreatedAt())
@@ -131,7 +134,30 @@ public class PostService {
 
   @Transactional(readOnly = true)
   public ResponseDto<?> getAllPost() {
-    return ResponseDto.success(postRepository.findAllByOrderByModifiedAtDesc());
+    List<Post> posts = postRepository.findAllByOrderByModifiedAtDesc();
+    List<PostResponseDto> postResponseDtos = new ArrayList<>();
+    for (Post post:posts){
+      List<Comment> commentList = commentRepository.findAllByPost(post);
+
+      postResponseDtos.add(
+      PostResponseDto.builder()
+                      .id(post.getId())
+                      .title(post.getTitle())
+                      .content(post.getContent())
+                      .imgUrl(post.getImgUrl())
+                      .like(post.getLikes())
+                      .commentcount(commentList.size())
+                      .author(post.getMember().getNickname())
+                      .createdAt(post.getCreatedAt())
+                      .modifiedAt(post.getModifiedAt())
+                      .build()
+      );
+
+    }
+
+    return ResponseDto.success(postResponseDtos);
+
+
   }
 
   @Transactional

@@ -1,5 +1,6 @@
 package com.example.intermediate.repository;
 
+import com.example.intermediate.domain.Member;
 import com.example.intermediate.domain.Post;
 import com.example.intermediate.domain.Member;
 
