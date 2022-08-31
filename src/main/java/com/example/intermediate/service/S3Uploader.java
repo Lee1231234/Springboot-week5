@@ -3,13 +3,24 @@ package com.example.intermediate.service;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+
+import com.example.intermediate.controller.request.TokenDto;
+import com.example.intermediate.controller.response.ImageResponseDto;
+import com.example.intermediate.controller.response.ResponseDto;
+import com.example.intermediate.domain.Member;
+import com.example.intermediate.jwt.TokenProvider;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
 
 import java.io.File;
 import java.io.FileOutputStream;
