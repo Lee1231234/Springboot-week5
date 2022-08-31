@@ -40,16 +40,11 @@ public class Post extends Timestamped {
   @Column
   private int likes;
 
-  @Column
-  private String url;
 
-
-
-
-  public void update(PostRequestDto postRequestDto, HttpServletRequest request) {
+  public void update(PostRequestDto postRequestDto) {
     this.title = postRequestDto.getTitle();
     this.content = postRequestDto.getContent();
-    this.url =  request.getHeader("url");
+    this.imgUrl =  postRequestDto.getImgUrl();
   }
 
   public boolean validateMember(Member member) {
