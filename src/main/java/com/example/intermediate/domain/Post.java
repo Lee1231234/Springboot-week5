@@ -27,7 +27,7 @@ public class Post extends Timestamped {
   @Column(nullable = false)
   private String content;
 
-  @Column
+  @Column(length = 1000)
   private String imgUrl;
 
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -40,16 +40,11 @@ public class Post extends Timestamped {
   @Column
   private int likes;
 
-  @Column
-  private String url;
 
-
-
-
-  public void update(PostRequestDto postRequestDto, HttpServletRequest request) {
+  public void update(PostRequestDto postRequestDto) {
     this.title = postRequestDto.getTitle();
     this.content = postRequestDto.getContent();
-    this.url =  request.getHeader("url");
+    this.imgUrl =  postRequestDto.getImgUrl();
   }
 
   public boolean validateMember(Member member) {

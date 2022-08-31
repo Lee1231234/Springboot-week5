@@ -16,9 +16,7 @@ public class PostResponseDto {
   private Long id;
   private String title;
   private String content;
-  private String url;
   private String imgUrl;
-
   private String author;
   private int like;
   private List<CommentResponseDto> commentResponseDtoList;
