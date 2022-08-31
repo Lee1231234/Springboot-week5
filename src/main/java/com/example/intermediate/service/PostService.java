@@ -58,11 +58,7 @@ public class PostService {
     Post post = Post.builder()
         .title(requestDto.getTitle())
         .content(requestDto.getContent())
-        
-        .url(request.getHeader("Url"))
-
         .imgUrl(requestDto.getImgUrl())
-
         .member(member)
         .build();
     postRepository.save(post);
@@ -71,12 +67,8 @@ public class PostService {
             .id(post.getId())
             .title(post.getTitle())
             .content(post.getContent())
-
-            .url(post.getUrl())
-
             .imgUrl(post.getImgUrl())
             .like(post.getLikes())
-
             .author(post.getMember().getNickname())
             .createdAt(post.getCreatedAt())
             .modifiedAt(post.getModifiedAt())
@@ -128,7 +120,7 @@ public class PostService {
             .id(post.getId())
             .title(post.getTitle())
             .content(post.getContent())
-            .url(post.getUrl())
+            .imgUrl(post.getImgUrl())
             .commentResponseDtoList(commentResponseDtoList)
             .author(post.getMember().getNickname())
             .createdAt(post.getCreatedAt())
@@ -168,7 +160,7 @@ public class PostService {
       return ResponseDto.fail("BAD_REQUEST", "작성자만 수정할 수 있습니다.");
     }
 
-    post.update(requestDto,request);
+    post.update(requestDto);
     return ResponseDto.success(post);
   }
 
