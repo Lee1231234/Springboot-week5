@@ -216,11 +216,15 @@ public class SubCommentService {
         SubCommentLikes likes  = isPresentLikes(subComment.getId(), member.getNickname());
 
         if (null == likes)
-            subCommentLikesRepository.save(SubCommentLikes.builder().requestId(subComment.getId()).nickname(member.getNickname()).build());
+            subCommentLikesRepository.save(SubCommentLikes.builder()
+                    .requestId(subComment.getId())
+                    .nickname(member.getNickname()).build());
         else
             subCommentLikesRepository.delete(likes);
 
-        subComment.updatelikes(likesRepository.findAllByRequestId(subComment.getId()).size());
+        subComment.updatelikes(
+                likesRepository
+                        .findAllByRequestId(subComment.getId()).size());
 
         return ResponseDto.success("like success");
 

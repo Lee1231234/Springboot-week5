@@ -246,17 +246,25 @@ public class CommentService {
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
         }
 
-        CommentLikes likes = isPresentcommentLikes(comment.getId(), member.getNickname());
+        CommentLikes likes = isPresentcommentLikes(
+                comment.getId(),
+                member.getNickname());
 
         if (null == likes)
-            commentLikeRepository.save(CommentLikes.builder()
+
+            commentLikeRepository.save(
+                    CommentLikes
+                            .builder()
                             .requestId(comment.getId())
                             .nickname(member.getNickname())
                             .build());
+
         else
             commentLikeRepository.delete(likes);
 
-        comment.updatelikes(commentLikeRepository.findAllByRequestId(comment.getId()).size());
+        comment.updatelikes(
+                commentLikeRepository
+                        .findAllByRequestId(comment.getId()).size());
 
         return ResponseDto.success("like success");
 
