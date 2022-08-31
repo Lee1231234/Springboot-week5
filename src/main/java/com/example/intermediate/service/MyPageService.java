@@ -7,7 +7,6 @@ import com.example.intermediate.domain.Member;
 import com.example.intermediate.domain.Post;
 import com.example.intermediate.domain.SubComment;
 import com.example.intermediate.domain.likes.CommentLikes;
-import com.example.intermediate.domain.likes.Likes;
 import com.example.intermediate.domain.likes.PostLikes;
 import com.example.intermediate.domain.likes.SubCommentLikes;
 import com.example.intermediate.jwt.TokenProvider;
