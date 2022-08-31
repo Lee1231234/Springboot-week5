@@ -10,7 +10,6 @@ public interface SubCommentLikesRepository extends JpaRepository<SubCommentLikes
 
         Optional<SubCommentLikes> findByRequestIdAndNickname(Long Id , String nickname);
         List<SubCommentLikes> findAllByRequestId(Long RequestID);
-
-
+        List<SubCommentLikes> findAllByNickname(String nickname);
 
 }

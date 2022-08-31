@@ -58,7 +58,7 @@ public class PostService {
     Post post = Post.builder()
         .title(requestDto.getTitle())
         .content(requestDto.getContent())
-        .url(request.getHeader("Url"))
+        .imgUrl(requestDto.getImgUrl())
         .member(member)
         .build();
     postRepository.save(post);
@@ -67,7 +67,8 @@ public class PostService {
             .id(post.getId())
             .title(post.getTitle())
             .content(post.getContent())
-            .url(post.getUrl())
+            .imgUrl(post.getImgUrl())
+            .like(post.getLikes())
             .author(post.getMember().getNickname())
             .createdAt(post.getCreatedAt())
             .modifiedAt(post.getModifiedAt())
@@ -95,6 +96,7 @@ public class PostService {
                           .id(subcomment.getId())
                           .author(subcomment.getMember().getNickname())
                           .content(subcomment.getContent())
+                          .like(subcomment.getLikes())
                           .createdAt(subcomment.getCreatedAt())
                           .modifiedAt(subcomment.getModifiedAt())
                           .build()
@@ -105,6 +107,7 @@ public class PostService {
               .id(comment.getId())
               .author(comment.getMember().getNickname())
               .content(comment.getContent())
+              .like(comment.getLikes())
               .Comments(subCommentResponeDtos)
               .createdAt(comment.getCreatedAt())
               .modifiedAt(comment.getModifiedAt())
@@ -117,7 +120,8 @@ public class PostService {
             .id(post.getId())
             .title(post.getTitle())
             .content(post.getContent())
-            .url(post.getUrl())
+            .imgUrl(post.getImgUrl())
+            .commentcount(commentResponseDtoList.size())
             .commentResponseDtoList(commentResponseDtoList)
             .author(post.getMember().getNickname())
             .createdAt(post.getCreatedAt())
@@ -128,7 +132,30 @@ public class PostService {
 
   @Transactional(readOnly = true)
   public ResponseDto<?> getAllPost() {
-    return ResponseDto.success(postRepository.findAllByOrderByModifiedAtDesc());
+    List<Post> posts = postRepository.findAllByOrderByModifiedAtDesc();
+    List<PostResponseDto> postResponseDtos = new ArrayList<>();
+    for (Post post:posts){
+      List<Comment> commentList = commentRepository.findAllByPost(post);
+
+      postResponseDtos.add(
+      PostResponseDto.builder()
+                      .id(post.getId())
+                      .title(post.getTitle())
+                      .content(post.getContent())
+                      .imgUrl(post.getImgUrl())
+                      .like(post.getLikes())
+                      .commentcount(commentList.size())
+                      .author(post.getMember().getNickname())
+                      .createdAt(post.getCreatedAt())
+                      .modifiedAt(post.getModifiedAt())
+                      .build()
+      );
+
+    }
+
+    return ResponseDto.success(postResponseDtos);
+
+
   }
 
   @Transactional
@@ -157,7 +184,7 @@ public class PostService {
       return ResponseDto.fail("BAD_REQUEST", "작성자만 수정할 수 있습니다.");
     }
 
-    post.update(requestDto,request);
+    post.update(requestDto);
     return ResponseDto.success(post);
   }
 
@@ -232,7 +259,6 @@ public class PostService {
     if (null == post) {
       return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
     }
-
     PostLikes likes = isPresentLikes(post.getId(), member.getNickname());
 
     if (null == likes)

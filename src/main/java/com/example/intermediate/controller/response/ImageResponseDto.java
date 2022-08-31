@@ -5,19 +5,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SubCommentResponeDto {
+public class ImageResponseDto {
     private Long id;
-    private String author;
-    private String content;
-    private int like;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
-
-
+    private String data;
 }

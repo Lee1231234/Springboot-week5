@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Builder
@@ -27,6 +26,9 @@ public class Post extends Timestamped {
   @Column(nullable = false)
   private String content;
 
+  @Column(length = 1000)
+  private String imgUrl;
+
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Comment> comments;
 
@@ -37,16 +39,11 @@ public class Post extends Timestamped {
   @Column
   private int likes;
 
-  @Column
-  private String url;
 
-
-
-
-  public void update(PostRequestDto postRequestDto, HttpServletRequest request) {
+  public void update(PostRequestDto postRequestDto) {
     this.title = postRequestDto.getTitle();
     this.content = postRequestDto.getContent();
-    this.url =  request.getHeader("url");
+    this.imgUrl =  postRequestDto.getImgUrl();
   }
 
   public boolean validateMember(Member member) {
@@ -57,6 +54,5 @@ public class Post extends Timestamped {
   public void updatelikes(int num) {
     this.likes = (num);
   }
-
 
 }

@@ -10,6 +10,6 @@ import java.util.Optional;
 public  interface LikesRepository extends JpaRepository<PostLikes, Long> {
     Optional<PostLikes> findByRequestIdAndNickname(Long Id , String nickname);
     List<PostLikes> findAllByRequestId(Long RequestID);
-
+    List<PostLikes> findAllByNickname(String nickname);
 
 }
