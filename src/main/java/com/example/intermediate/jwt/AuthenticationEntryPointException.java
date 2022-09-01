@@ -23,6 +23,6 @@ public class AuthenticationEntryPointException implements
             ResponseDto.fail("BAD_REQUEST", "로그인이 필요합니다.")
         )
     );
-    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+    response.setStatus(HttpServletResponse.SC_OK);
   }
 }
