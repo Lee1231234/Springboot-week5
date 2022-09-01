@@ -121,9 +121,8 @@ public class PostService {
             .title(post.getTitle())
             .content(post.getContent())
             .imgUrl(post.getImgUrl())
-
             .commentcount(commentResponseDtoList.size())
-
+            .like(post.getLikes())
             .commentResponseDtoList(commentResponseDtoList)
             .author(post.getMember().getNickname())
             .createdAt(post.getCreatedAt())
