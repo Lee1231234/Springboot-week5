@@ -27,6 +27,11 @@ public class CustomExceptionHandler {
 
   @ExceptionHandler(SizeException.class)
   public ResponseDto<?> SizeLimitExceededException() {
-    return ResponseDto.fail("CONVERT_FAIL", "fail convert multipart to file");
+    return ResponseDto.fail("Size_FAIL", "파일 크기 최대 10MB");
+  }
+
+  @ExceptionHandler(java.lang.IllegalArgumentException.class)
+  public ResponseDto<?> IllegalException() {
+    return ResponseDto.fail("CONVERT_FAIL", "fail convert multipart to file" );
   }
 }

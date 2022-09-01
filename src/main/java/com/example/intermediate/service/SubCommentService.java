@@ -26,10 +26,10 @@ public class SubCommentService {
     private final SubCommentRepository subCommentRepository;
     private final LikesRepository likesRepository;
     private final TokenProvider tokenProvider;
-    private final CommentRepository commentRepository;
+
     private final CommentService commentService;
     private final SubCommentLikesRepository subCommentLikesRepository;
-    private final CommentLikeRepository commentLikeRepository;
+
 
     @Transactional
     public ResponseDto<?> subcreateComment(SubCommentRequestDto requestDto, HttpServletRequest request) {
